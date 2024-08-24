@@ -33,6 +33,12 @@
                 <button type="submit">Login</button>
             </div>
         </form>
+
+        </br>
+        belum punya akun?
+        <a href="{{ url('/register') }}">
+            <button class="register-button">Register</button>
+        </a>
 </div>
 </body>
 </html>
