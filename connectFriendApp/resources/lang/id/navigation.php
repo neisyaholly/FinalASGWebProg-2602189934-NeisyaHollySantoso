@@ -6,7 +6,5 @@ return [
     "Friend" => "Teman",
     "Welcome" => "Selamat Datang",
     "Logout" => "Keluar",
-    "Login" => "Masuk",
-    "Register" => "Daftar",
 ]
     ?>
