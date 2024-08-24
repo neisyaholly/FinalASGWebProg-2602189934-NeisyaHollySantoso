@@ -22,12 +22,12 @@
                                 @csrf
                                 <input type="hidden" name="request_id" value="{{ $user->request_id }}">
                                 <input type="hidden" name="friend_id" value="{{ $user->id }}">
-                                <button type="submit" class="button btn-primary">Accept</button>
+                                <button type="submit" class="button btn-primary">@lang('request.accept')</button>
                             </form>
                             <form method="POST" action="{{route('friend-request.destroy', $user->request_id)}}">
                             @method('delete')
                                 @csrf
-                                <button type="submit" class="button btn-danger">Decline</button>
+                                <button type="submit" class="button btn-danger">@lang('request.decline')</button>
                             </form>
                         </div>
                     </div>

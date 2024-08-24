@@ -34,10 +34,10 @@
                 <form method="POST" action="{{ route('message.store') }}" class="mt-3">
                     @csrf
                     <div class="input-group">
-                        <input type="text" name="new_message" class="form-control" placeholder="Enter your message"
+                        <input type="text" name="new_message" class="form-control" placeholder="@lang('message.enter')"
                             required>
                         <input type="hidden" name="friend_id" value="{{ $friend->id }}">
-                        <button type="submit" class="btn btn-primary">Send</button>
+                        <button type="submit" class="btn btn-primary">@lang('message.send')</button>
                     </div>
                 </form>
             </div>

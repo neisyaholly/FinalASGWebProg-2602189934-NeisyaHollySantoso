@@ -18,7 +18,7 @@
                             <h5 class="card-title">{{ $user->name }}</h5>
                             <p class="card-text">{{ $user->hobbies }}</p>
                             <a href="{{ route('message.show', $user->id) }}"
-                                class="btn btn-primary mt-auto w-100">Message</a>
+                                class="btn btn-primary mt-auto w-100">@lang('friend.message')</a>
                         </div>
                     </div>
                 </div>
