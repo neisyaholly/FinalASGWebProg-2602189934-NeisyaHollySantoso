@@ -14,12 +14,12 @@ Route::get('/', function () {
 
 Route::get('/register', function () {
     return view('register');
-});
+})->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -35,13 +35,12 @@ Route::post('/updatePaid', [PaymentController::class, 'update_paid']);
 Route::get('/overpayment', [PaymentController::class, 'handleOverpayment'])->name('handle.overpayment');
 Route::post('/overpayment', [PaymentController::class, 'processOverpayment'])->name('process.overpayment');
 
+// Route::get('/home', function () {
+//     return view('home');
+// })->name('home');
+Route::get('/home', [UserController::class, 'index'])->name('home');
+
 Route::middleware(['auth', 'paid'])->group(function () {
-    // Route::get('/home', function () {
-    //     return view('home');
-    // })->name('home');
-
-    Route::get('/home', [UserController::class, 'index'])->name('home');
-
     Route::resource('user', UserController::class);
     Route::resource('friend-request', FriendRequestController::class);
     Route::resource('friend', FriendController::class);

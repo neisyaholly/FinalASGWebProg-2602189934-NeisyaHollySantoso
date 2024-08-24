@@ -11,31 +11,34 @@
     <div class="container">
         <h3>Notifications</h3>
         <div class="alert alert-info">
-            <ul class="list-unstyled mb-0">
-                @forelse (Auth::user()->notifications as $notification)
-                    <li>
-                        {{ $notification->data['message'] }}
-                        <a href="{{ route('notifications.destroy', $notification->id) }}" class="btn btn-danger btn-sm ms-2"
-                            onclick="event.preventDefault(); document.getElementById('delete-form-{{ $notification->id }}').submit();">
-                            <i class="icon-close"></i>
-                        </a>
+            @auth
+                <ul class="list-unstyled mb-0">
+                    @forelse (Auth::user()->notifications as $notification)
+                        <li>
+                            {{ $notification->data['message'] }}
+                            <a href="{{ route('notifications.destroy', $notification->id) }}" class="btn btn-danger btn-sm ms-2"
+                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $notification->id }}').submit();">
+                                <i class="icon-close"></i>
+                            </a>
 
-                        <form id="delete-form-{{ $notification->id }}"
-                            action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
-                            style="display: none;">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    </li>
-                @empty
-                    <li>@lang('home.no_new_notifications')</li>
-                @endforelse
-            </ul>
+                            <form id="delete-form-{{ $notification->id }}"
+                                action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        </li>
+                    @empty
+                        <li>@lang('home.no_new_notifications')</li>
+                    @endforelse
+                </ul>
+            @else
+                <p>@lang('home.login_to_see_notifications')</p>
+            @endauth
         </div>
 
         <div class="row mt-4">
-        <!-- Search Form -->
-
+            <!-- Search Form -->
             <form method="GET" action="{{ route('user.index') }}" class="mb-4">
                 <div class="row">
                     <div class="col-md-8">
@@ -57,6 +60,7 @@
                     </div>
                 </div>
             </form>
+
             @foreach ($dataUser as $user)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
@@ -65,11 +69,20 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $user->name }}</h5>
                             <p class="card-text">{{ $user->hobbies }}</p>
-                            <form method="POST" action="{{ route('friend-request.store') }}" class="mt-auto">
-                                @csrf
-                                <input type="hidden" name="receiver_id" value="{{ $user->id }}">
-                                <button type="submit" class="btn btn-primary w-100">Send Request</button>
-                            </form>
+
+                            @auth
+                                <!-- Show the "Send Request" button if authenticated -->
+                                <form method="POST" action="{{ route('friend-request.store') }}" class="mt-auto">
+                                    @csrf
+                                    <input type="hidden" name="receiver_id" value="{{ $user->id }}">
+                                    <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </button>
+                                </form>
+                            @else
+                                <!-- Show a login button if not authenticated -->
+                                <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Send Request</a>
+                            @endauth
                         </div>
                     </div>
                 </div>

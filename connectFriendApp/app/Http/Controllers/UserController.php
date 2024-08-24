@@ -14,36 +14,48 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $currentUserID = Auth::user()->id;
+        // Check if the user is authenticated
+        $currentUserID = Auth::check() ? Auth::user()->id : null;
 
         // Get the search term and gender filter from the request
         $searchTerm = $request->input('search');
-        $genderFilter = $request->input('gender'); // New line to get the gender filter
+        $genderFilter = $request->input('gender');
 
-        // Subquery to get the list of users who have sent a request to the current user
-        $sentRequestUserIDs = DB::table('friend_requests')
-            ->where('sender_id', '=', $currentUserID)
-            ->pluck('receiver_id');
+        // Build the query for fetching users
+        $query = User::query();
 
-        // Subquery to get the list of users who are already friends with the current user
-        $friendUserIDs = DB::table('friends')
-            ->where('user_id', '=', $currentUserID)
-            ->pluck('friend_id');
+        // Apply search and gender filters
+        if ($searchTerm) {
+            $query->where('hobbies', 'like', '%' . $searchTerm . '%');
+        }
 
-        // Query to get users who have not sent a friend request to the current user
-        $dataUser = User::whereNotIn('id', $sentRequestUserIDs)
-            ->whereNotIn('id', $friendUserIDs)
-            ->where('id', '!=', $currentUserID)
-            ->when($searchTerm, function ($query, $searchTerm) {
-                return $query->where('hobbies', 'like', '%' . $searchTerm . '%');
-            })
-            ->when($genderFilter, function ($query, $genderFilter) {
-                return $query->where('gender', $genderFilter);
-            })
-            ->get();
+        if ($genderFilter) {
+            $query->where('gender', $genderFilter);
+        }
+
+        // If the user is authenticated, exclude their own ID and filter out users who have already sent/received requests
+        if ($currentUserID) {
+            // Subquery to get the list of users who have sent a request to the current user
+            $sentRequestUserIDs = DB::table('friend_requests')
+                ->where('sender_id', '=', $currentUserID)
+                ->pluck('receiver_id');
+
+            // Subquery to get the list of users who are already friends with the current user
+            $friendUserIDs = DB::table('friends')
+                ->where('user_id', '=', $currentUserID)
+                ->pluck('friend_id');
+
+            $query->whereNotIn('id', $sentRequestUserIDs)
+                ->whereNotIn('id', $friendUserIDs)
+                ->where('id', '!=', $currentUserID);
+        }
+
+        // Execute the query and get the results
+        $dataUser = $query->get();
 
         return view('home', compact('dataUser'));
     }
+
 
     /**
      * Show the form for creating a new resource.
