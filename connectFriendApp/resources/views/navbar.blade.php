@@ -8,6 +8,8 @@
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="bg-light">
@@ -22,27 +24,27 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeHome')" href="{{route('user.index')}}">Home</a>
+                        <a class="nav-link @yield('activeHome')" href="{{route('user.index')}}">@lang('navbar.Home')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeRequest')" href="{{route('friend-request.index')}}">Request</a>
+                        <a class="nav-link @yield('activeRequest')" href="{{route('friend-request.index')}}">@lang('navbar.Request')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeMessage')" href="{{route('friend.index')}}">Friend</a>
+                        <a class="nav-link @yield('activeMessage')" href="{{route('friend.index')}}">@lang('navbar.Friend')</a>
                     </li>
                 </ul>
                 @if (Auth::check())
                     <div class="d-flex align-items-center">
-                        <span class="text-light me-3">Welcome, {{ Auth::user()->name }}!</span>
+                        <span class="text-light me-3">@lang('navbar.Welcome'), {{ Auth::user()->name }}!</span>
                         <form method="POST" action="{{ url('/logout') }}">
                             @csrf
-                            <button type="submit" class="btn btn-outline-light">Logout</button>
+                            <button type="submit" class="btn btn-outline-light">@lang('navbar.Logout')</button>
                         </form>
                     </div>
                 @else
                     <div class="d-flex">
-                        <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">Login</a>
-                        <a href="{{ url('/register') }}" class="btn btn-primary">Register</a>
+                        <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">@lang('navbar.Login')</a>
+                        <a href="{{ url('/register') }}" class="btn btn-primary">@lang('navbar.Register')</a>
                     </div>
                 @endif
             </div>

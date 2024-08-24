@@ -68,8 +68,10 @@
                             <form method="POST" action="{{ route('friend-request.store') }}" class="mt-auto">
                                 @csrf
                                 <input type="hidden" name="receiver_id" value="{{ $user->id }}">
-                                <button type="submit" class="btn btn-primary w-100">Send Request</button>
-                            </form>
+                                <button type="submit" class="btn btn-primary w-100 d-flex justify-content-center align-items-center">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                            </form>                            
                         </div>
                     </div>
                 </div>
