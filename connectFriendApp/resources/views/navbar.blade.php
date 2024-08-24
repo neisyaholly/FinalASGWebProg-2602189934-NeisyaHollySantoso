@@ -24,27 +24,35 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeHome')" href="{{route('user.index')}}">Home</a>
+                        <a class="nav-link @yield('activeHome')" href="{{route('user.index')}}">@lang('navbar.Home')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeRequest')" href="{{route('friend-request.index')}}">Request</a>
+                        <a class="nav-link @yield('activeRequest')" href="{{route('friend-request.index')}}">@lang('navbar.Request')</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeMessage')" href="{{route('friend.index')}}">Friend</a>
+                        <a class="nav-link @yield('activeMessage')" href="{{route('friend.index')}}">@lang('navbar.Friend')</a>
                     </li>
                 </ul>
                 @if (Auth::check())
                     <div class="d-flex align-items-center">
                         <span class="text-light me-3">Welcome, {{ Auth::user()->name }}!</span>
+                        <div class="d-flex text-center align-items-center text-white gap-1 px-3">
+                            <a href="{{ route('lang.switch', 'en') }}">English</a> |
+                            <a href="{{ route('lang.switch', 'id') }}">Indonesian</a>
+                        </div>                         
                         <form method="POST" action="{{ url('/logout') }}">
                             @csrf
-                            <button type="submit" class="btn btn-outline-light">Logout</button>
+                            <button type="submit" class="btn btn-outline-light">@lang('navbar.Logout')</button>
                         </form>
                     </div>
                 @else
                     <div class="d-flex">
-                        <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">Login</a>
-                        <a href="{{ url('/register') }}" class="btn btn-primary">Register</a>
+                        <div class="d-flex text-center align-items-center text-white gap-1 px-3">
+                            <a href="{{ route('lang.switch', 'en') }}">English</a> |
+                            <a href="{{ route('lang.switch', 'id') }}">Indonesian</a>
+                        </div>                        
+                        <a href="{{ url('/login') }}" class="btn btn-outline-light me-2">@lang('navbar.Login')</a>
+                        <a href="{{ url('/register') }}" class="btn btn-primary">@lang('navbar.Register')</a>
                     </div>
                 @endif
             </div>

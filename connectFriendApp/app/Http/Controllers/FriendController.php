@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\Friend;
 use App\Models\FriendRequest;
 use App\Models\User;
@@ -16,6 +17,9 @@ class FriendController extends Controller
      */
     public function index()
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $currentUserID = Auth::user()->id;
         $dataFriend = Friend::where('user_id', '=', $currentUserID)->join('users', 'users.id', '=', 'friends.friend_id')->get(['users.*']);
 

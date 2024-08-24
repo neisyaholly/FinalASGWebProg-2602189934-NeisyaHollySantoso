@@ -9,7 +9,7 @@
     @endif
 
     <div class="container">
-        <h3>Notifications</h3>
+        <h3>@lang('home.notification')</h3>
         <div class="alert alert-info">
             @auth
                 <ul class="list-unstyled mb-0">
@@ -33,7 +33,7 @@
                     @endforelse
                 </ul>
             @else
-                <p>@lang('home.login_to_see_notifications')</p>
+                <p>@lang('home.no_new_notifications_notlogin')</p>
             @endauth
         </div>
 
@@ -81,7 +81,7 @@
                                 </form>
                             @else
                                 <!-- Show a login button if not authenticated -->
-                                <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Send Request</a>
+                                <a href="{{ route('login') }}" class="btn btn-primary w-100">Login to Add Friend</a>
                             @endauth
                         </div>
                     </div>

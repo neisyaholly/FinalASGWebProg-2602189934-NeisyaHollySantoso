@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -12,6 +13,9 @@ class AuthController extends Controller
     //
     public function register(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         // Validate the registration data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -42,6 +46,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -62,6 +69,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         // Log the user out
         Auth::logout();
 

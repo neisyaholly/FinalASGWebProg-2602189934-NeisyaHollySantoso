@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Models\FriendRequest;
 use Auth;
 use Illuminate\Http\Request;
@@ -13,6 +14,9 @@ class FriendRequestController extends Controller
      */
     public function index()
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $currentUserID = Auth::user()->id;
         $friendRequest = FriendRequest::where('friend_requests.receiver_id', '=', $currentUserID)->where('friend_requests.status', '=', 'pending')->join('users', 'users.id', '=', 'friend_requests.sender_id')->get(['friend_requests.id as request_id', 'users.*']);
 
@@ -32,6 +36,9 @@ class FriendRequestController extends Controller
      */
     public function store(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $sender_id = Auth::user()->id;
         $receiver_id = $request->input('receiver_id');
 
@@ -74,6 +81,9 @@ class FriendRequestController extends Controller
      */
     public function destroy(FriendRequest $friendRequest)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $deleteRequest = FriendRequest::destroy($friendRequest->id);
 
         return redirect()->route('friend-request.index')->with('success', 'Succesfully Delete');

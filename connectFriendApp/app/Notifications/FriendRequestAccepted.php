@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,6 +28,9 @@ class FriendRequestAccepted extends Notification
      */
     public function via($notifiable)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         return ['mail', 'database']; // You can add 'database' or 'mail' depending on your preference
     }
 
@@ -38,6 +42,9 @@ class FriendRequestAccepted extends Notification
      */
     public function toMail($notifiable)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         return (new MailMessage)
             ->line('Your friend request has been accepted!')
             ->action('View Friends', url('/friends'))
@@ -52,6 +59,9 @@ class FriendRequestAccepted extends Notification
      */
     public function toArray($notifiable)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         return [
             'message' => 'Your friend request has been accepted!',
             'action_url' => url('/friends'),

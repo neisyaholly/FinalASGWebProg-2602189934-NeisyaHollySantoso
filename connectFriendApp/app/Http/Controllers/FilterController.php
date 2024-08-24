@@ -10,6 +10,9 @@ class FilterController extends Controller
 {
     public function filter_gender($gender)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $user = User::where('users.gender', $gender)
             ->where('id', '!=', auth()->user()->id)
             ->where('users.is_visible', 1)

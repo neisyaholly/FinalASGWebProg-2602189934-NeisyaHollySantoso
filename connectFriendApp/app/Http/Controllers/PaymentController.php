@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -9,6 +10,9 @@ class PaymentController extends Controller
 {
     public function update_paid(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         // Validate the form data
         $validatedData = $request->validate([
             'payment_amount' => 'required|numeric|min:0',
@@ -23,7 +27,7 @@ class PaymentController extends Controller
 
         if ($difference < 0) {
             // User underpaid
-            return redirect()->back()->with('error', 'You are still underpaid $' . number_format(-$difference, 2));
+            return redirect()->back()->with('error', 'You are still underpaid Rp.' . number_format(-$difference, 2));
         } elseif ($difference > 0) {
             // User overpaid
             return redirect()->route('handle.overpayment', [
@@ -41,6 +45,9 @@ class PaymentController extends Controller
 
     public function handleOverpayment(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $amount = $request->input('amount');
         $paymentAmount = $request->input('payment_amount');
         $price = $request->input('price');
@@ -55,12 +62,15 @@ class PaymentController extends Controller
 
     public function processOverpayment(Request $request)
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         $action = $request->input('action');
         $paymentAmount = $request->input('payment_amount');
         $price = $request->input('price');
         $user = Auth::user();
 
-        if ($action === 'accept') {
+        if ($action === 'yes') {
             // Add the overpaid amount to the user's wallet balance
             $amount = $request->input('amount');
             // Assume a wallet balance attribute exists on the user

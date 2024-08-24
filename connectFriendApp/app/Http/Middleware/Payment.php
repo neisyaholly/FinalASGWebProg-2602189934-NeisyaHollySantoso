@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App;
 use Auth;
 use Closure;
 use Illuminate\Http\Request;
@@ -16,6 +17,9 @@ class Payment
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $loc = session()->get('locale');
+        App::setLocale($loc);
+
         if (Auth::check() && !Auth::user()->has_paid) {
             return redirect()->route('payment');
         }

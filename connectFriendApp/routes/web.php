@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
@@ -46,3 +47,5 @@ Route::middleware(['auth', 'paid'])->group(function () {
     Route::resource('friend', FriendController::class);
     Route::resource('message', MessageController::class);
 });
+
+Route::get('lang/{lang}', [LocalizationController::class, 'switchLang'])->name('lang.switch');
